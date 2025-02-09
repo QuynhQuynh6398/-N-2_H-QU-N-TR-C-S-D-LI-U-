@@ -1,0 +1,131 @@
+> show dbs
+< admin    40.00 KiB
+config  108.00 KiB
+local    72.00 KiB
+qlsv11   72.00 KiB
+test     40.00 KiB
+> use qlsv11
+< switched to db qlsv11
+> db.createCollection("thongtingiangvien")
+< { ok: 1 }
+> show collections
+< sinhvien
+thongtingiangvien
+> db.thongtingiangvien.insertOne({Name:"Ngô Hoàng Minh Đăng", Jobtitle:"Dev", Skills:["java", "HTML", "CSS", "Python"], Salary:"$5000"})
+< {
+  acknowledged: true,
+  insertedId: ObjectId('67a8b598dd712aa01b2a4ced')
+}
+> db.thongtinsv.find()
+< 
+> db.thongtingiangvien.insertMany([
+  {
+    Name: "Trần Thị Thùy Dương",
+    Jobtitle: "BA",
+    Skills: ["python", "java", "C"],
+    Salary: "$2346"
+  },
+  {
+     Name:"Nguyễn Như Quỳnh",
+     Jobtitle:"JAVA",
+     Skills:["python", "java", "HTML", "css"],
+     Salary:"$3000"
+  },
+  {
+     Name:"Bùi Thanh Hà",
+     Jobtitle:"Cơ Điện Tử",
+     Skills:["hát", "nhảy"],
+     Salary:"$10000"
+  },
+  {
+     Name:"Ngô Thị Thanh Tâm",
+     Jobtitle:"Cơ Khí",
+     Skills:["anh văn"],
+     Salary:"$1256"
+  },
+  {
+     Name:"Nguyễn Thị Tú Uyên",
+     Jobtitle:"Xây Dựng",
+     Skills:"Khoa Nội",
+     Salry:"$2000000"
+  }
+])
+< {
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('67a8b60bdd712aa01b2a4cee'),
+    '1': ObjectId('67a8b60bdd712aa01b2a4cef'),
+    '2': ObjectId('67a8b60bdd712aa01b2a4cf0'),
+    '3': ObjectId('67a8b60bdd712aa01b2a4cf1'),
+    '4': ObjectId('67a8b60bdd712aa01b2a4cf2')
+  }
+}
+> db.thongtingiangvien.updateOne(
+  {Name:"Ngô Hoàng Minh Đăng"},
+  {$set:{Age:"29"}},
+  {
+    upsert: false,
+    multi: false,
+  }
+)
+< {
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+> db.thongtingiangvien.deleteOne(
+  {Nmae:"Bùi Thanh Hà"},
+  {justOne: true}
+)
+< {
+  acknowledged: true,
+  deletedCount: 0
+}
+> db.thongtingiangvien.find().count()
+< 6
+> db.thongtingiangvien.find({}, {"Name": 1, "Skills": 1, "_id": 0})
+< 
+  Name: 'Ngô Hoàng Minh Đăng',
+  Skills: [
+    'java',
+    'HTML',
+    'CSS',
+    'Python'
+  ]
+}
+{
+  Name: 'Trần Thị Thùy Dương',
+  Skills: [
+    'python',
+    'java',
+    'C'
+  ]
+}
+{
+  Name: 'Nguyễn Như Quỳnh',
+  Skills: [
+    'python',
+    'java',
+    'HTML',
+    'css'
+  ]
+}
+{
+  Name: 'Bùi Thanh Hà',
+  Skills: [
+    'hát',
+    'nhảy'
+  ]
+}
+{
+  Name: 'Ngô Thị Thanh Tâm',
+  Skills: [
+    'anh văn'
+  ]
+}
+{
+  Name: 'Nguyễn Thị Tú Uyên',
+  Skills: 'Khoa Nội'
+}
